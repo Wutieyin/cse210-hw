@@ -4,6 +4,7 @@ using System.Runtime.CompilerServices;
 using System.Security.Cryptography.X509Certificates;
 using System.Collections.Generic;
 using System.IO;
+using System.Reflection.Metadata;
 
 /*class Journal
 {
@@ -52,10 +53,10 @@ using System.IO;
               /*string _date = parts[0];
               string _promptText = parts[1];
               string _entryText = parts[2];*/
-         /* }
-        
-        }
-        
+/* }
+
+}
+
 } 
 */
 
@@ -99,9 +100,9 @@ class Journal
   }
 
 
-  public void LoadFromFile(string filename)
+  public void LoadFromFile(string filename )
   {
-      filename = "myFile.txt";
+      /*filename = "myFile.txt";
       string[] lines = System.IO.File.ReadAllLines(filename);
       foreach (string line in lines)
       {
@@ -110,7 +111,21 @@ class Journal
           string _date = parts[0];
           string _promptText = parts[1];
           string _entryText = parts[2];
-      }
+      } */
+
+    filename = "myFile.txt";
+
+    StreamReader reader = new StreamReader(filename);
+
+    string? line = reader.ReadLine();
+
+    while (line != null)
+    {
+      System.Console.WriteLine(line);
+
+      line = reader.ReadLine();
+    }
+    reader.Close();
 
   }
 
