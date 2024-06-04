@@ -1,0 +1,162 @@
+using System;
+using System.Globalization;
+using System.Security.Cryptography.X509Certificates;
+
+public class Activity
+{
+    private string _name;
+    private string _description;
+    private int _duration;
+
+    public Activity()
+    {
+
+    }
+
+    public void DisplayStartingMessage()
+    {
+
+    }
+
+    public void DisplayEndingMessage()
+    {
+
+    }
+
+    public void ShowSpinner(int seconds)
+    {
+
+    }
+
+    public void ShowCountDown(int seconds)
+    {
+
+    }
+}
+
+
+
+
+public class BreathingActivity
+{
+    
+    public BreathingActivity()
+    {
+
+    }
+
+    public void Run()
+    {
+        
+    }
+}
+
+
+
+
+using System;
+using System.Collections.Generic;
+using System.Text;
+using System.IO;
+using System.Runtime.Intrinsics.Arm;
+
+class Program
+{
+    static void Main(string[] args)
+    {   
+        Console.WriteLine();
+    }
+}
+
+
+
+using System;
+using System.Collections.Generic;
+using System.Text;
+using System.IO;
+using System.Runtime.Intrinsics.Arm;
+
+public class ListingActivity
+{
+    private int _count;
+    private List<string>_prompts;
+
+    public ListingActivity()
+    {
+        
+    }
+
+    public void Run()
+    {
+
+    }
+
+    public void GetRandomPrompt()
+    {
+
+    }
+
+    public List<string> GetListFromUser()
+    {
+        return new List<string>();
+    }
+
+}
+
+
+
+
+using System;
+using System.Collections.Generic;
+using System.Text;
+using System.IO;
+using System.Runtime.Intrinsics.Arm;
+
+class Program
+{
+    static void Main(string[] args)
+    {   
+        Console.WriteLine();
+    }
+}
+
+
+
+public class ReflecingActivity
+{
+    private List<string> _prompts;
+    private List<string> _questions;
+
+    public ReflecingActivity()
+    {
+      
+    }
+
+    public void Run()
+    {
+
+    }
+
+    public string GetRandomPrompt()
+    {
+        return " ";
+    }
+
+     public string GetRandomQuestion()
+    {
+        return " ";
+    }
+
+    public void DisplayPrompt()
+    {
+
+    }
+
+    public void DisplayQuestions()
+    {
+        
+    }
+
+
+
+} 

@@ -1,0 +1,29 @@
+public string GetName() // Additional method
+    {
+        return _name;
+    }
+
+    public void SetName(string Name) // Additional method
+    {
+        _name = Name;
+    }
+
+    public string GetDescription() // Additional method
+    {
+        return _description;
+    }
+
+    public void SetDescription(string Description) // Additional method
+    {
+        _description = Description;
+    }
+
+    public int GetPoints() // Additional method
+    {
+        return _points;
+    }
+
+    public void SetPoints(int Points) // Additional method
+    {
+        _points = Points;
+    }

@@ -25,37 +25,17 @@ public class Goal
         _points = points;
     }
 
-    public int GetPoints() // Additional method
-    {
-        return _points;
-    }
-
-    public void SetPoints(int Points) // Additional method
-    {
-        _points = Points;
-    }
-
-     public string GetDescription() // Additional method
-    {
-        return _description;
-    }
-
-    public void SetDescription(string Description) // Additional method
-    {
-        _description = Description;
-    }
-
     // Virtual methods to be overridden by derived classes
     public virtual void RecordEvent() {}
     public virtual bool IsCompleted() { return false; }
-    public virtual string GetDetailsString() { return $"{_name} ({_description})"; }
-    public virtual string GetStringRepresentation() { return $"{_name}, ({_description})"; }
+    public virtual string GetDetailsString() { return $"{_name}: {_description} - {_points} points"; }
+    public virtual string GetStringRepresentation() { return $"{_name} - {_description}"; }
 }
 
 // Derived class representing a simple goal
 public class SimpleGoal : Goal
 {
-    public bool _isComplete;
+    private bool _isComplete;
 
     public SimpleGoal(string name, string description, int points)
         : base(name, description, points)
@@ -75,7 +55,7 @@ public class SimpleGoal : Goal
 
     public override string GetStringRepresentation()
     {
-        return $"{base.GetStringRepresentation()}"; //{_points}"; //({(_isComplete ? "Achieved" : "Not Achieved")})";
+        return $"{base.GetStringRepresentation()} ({(_isComplete ? "Achieved" : "Not Achieved")})";
     }
 }
 
@@ -86,17 +66,18 @@ public class EternalGoal : Goal
         : base(name, description, points)
     {
     }
+
     public override string GetStringRepresentation()
     {
-        return $"{base.GetStringRepresentation()}";
+        return $"{base.GetStringRepresentation()} - {_points} points";
     }
 }
 
 // Derived class representing a checklist goal
 public class ChecklistGoal : Goal
 {
-    public int _amountCompleted;
-    public int _target;
+    private int _amountCompleted;
+    private int _target;
     private int _bonus;
 
     public ChecklistGoal(string name, string description, int points, int target, int bonus)
@@ -106,17 +87,6 @@ public class ChecklistGoal : Goal
         _target = target;
         _bonus = bonus;
     }
-
-/*
-    public int GetTarget() // Additional method
-    {
-        return _target;
-    }
-
-    public void SetTarget(int target) // Additional method
-    {
-        _target = target;
-    } */
 
     public override void RecordEvent()
     {
@@ -140,25 +110,13 @@ public class ChecklistGoal : Goal
 
     public override string GetStringRepresentation()
     {
-        return $"{base.GetStringRepresentation()}"; //, {_points}, {_target}, {_bonus}, {_amountCompleted}";
+        return $"{base.GetStringRepresentation()} ({_amountCompleted}/{_target})";
     }
 
     public int Bonus
     {
         get { return _bonus; }
     }
-
-    public int Target
-        {
-            get { return _target; }
-        }
-
-    public int AmountCompleted
-        {
-            get { return _amountCompleted; }
-        }
-
-   
 }
 
 // Class representing the goal manager
@@ -167,20 +125,17 @@ public class GoalManager
     private List<Goal> _goals;
     private int _score;
 
-    private List<ChecklistGoal> _checklistGoals;
-
     public GoalManager()
     {
         _goals = new List<Goal>();
-        _checklistGoals = new List<ChecklistGoal>();
         _score = 0;
     }
 
     // Start the goal manager
     public void Start()
     {
-        //LoadGoals();
-        //DisplayPlayerInfo();
+        LoadGoals();
+        DisplayPlayerInfo();
         RunMenu();
     }
 
@@ -195,10 +150,7 @@ public class GoalManager
     {
         bool quit = false;
         while (!quit)
-        {   
-            Console.WriteLine();
-            DisplayPlayerInfo();
-
+        {
             Console.WriteLine("\nMain Menu:");
             Console.WriteLine("1. Create New Goal");
             Console.WriteLine("2. List Goals");
@@ -282,25 +234,10 @@ public class GoalManager
     public void ListGoals()
     {
         Console.WriteLine("\nList of Goals:");
-        /*foreach (Goal goal in _goals)
+        foreach (var goal in _goals)
         {
             Console.WriteLine(goal.GetDetailsString());
-        }*/
-
-        /*for (int i = 0; i + 1 <= _goals.Count;i++)
-        {
-            Console.WriteLine($"{i}. [ ] {_goals[i]} ");
-        } */
-        int index = 1;
-        foreach (Goal goal in _goals)
-
-        if (goal.IsCompleted() == false)
-        {
-            Console.WriteLine($"{index++}. [ ] {goal.GetDetailsString()}");
         }
-
-        else if (goal.IsCompleted() == true)
-        Console.WriteLine($"{index++}. [X] {goal.GetDetailsString()}");
     }
 
     // Save goals to a file
@@ -311,14 +248,14 @@ public class GoalManager
         using (StreamWriter writer = new StreamWriter(fileName))
         {
             writer.WriteLine(_score);
-            foreach (Goal goal in _goals)
+            foreach (var goal in _goals)
             {
                 string goalType = goal.GetType().Name;
                 string goalDetails = goalType switch
                 {
-                    "SimpleGoal" => $"{goalType}: {goal.GetStringRepresentation()}, {goal.GetPoints()},{goal.IsCompleted()}",
-                    "EternalGoal" => $"{goalType}: {goal.GetStringRepresentation()}, {goal.GetPoints()}",
-                    "ChecklistGoal" => $"{goalType}: {goal.GetStringRepresentation()}, {goal.GetPoints()}, {((ChecklistGoal)goal).Bonus}, {((ChecklistGoal)goal).Target}, {((ChecklistGoal)goal).AmountCompleted}", //, {((ChecklistGoal)goal).Bonus}, {((ChecklistGoal)goal).IsBonusAchieved()}",
+                    "SimpleGoal" => $"{goalType}: {goal.GetStringRepresentation()}, {goal.IsCompleted()}",
+                    "EternalGoal" => $"{goalType}: {goal.GetStringRepresentation()}",
+                    "ChecklistGoal" => $"{goalType}: {goal.GetStringRepresentation()}, {((ChecklistGoal)goal).Bonus}, {((ChecklistGoal)goal).IsBonusAchieved()}",
                     _ => ""
                 };
                 writer.WriteLine(goalDetails);
@@ -375,7 +312,7 @@ public class GoalManager
     // Record an event (accomplished goal)
     public void RecordEvent()
     {
-       Console.WriteLine("\nChoose Goal to Record Event:");
+        Console.WriteLine("\nChoose Goal to Record Event:");
         for (int i = 0; i < _goals.Count; i++)
         {
             Console.WriteLine($"{i + 1}. {_goals[i].GetStringRepresentation()}");
@@ -388,36 +325,14 @@ public class GoalManager
         {
             Goal selectedGoal = _goals[choice - 1];
             selectedGoal.RecordEvent();
-            _score += selectedGoal.IsCompleted() ? selectedGoal.GetPoints() : 0;
+            _score += selectedGoal.IsCompleted() ? selectedGoal._points : 0;
             if (selectedGoal is ChecklistGoal checklistGoal && checklistGoal.IsBonusAchieved())
             {
                 _score += checklistGoal.Bonus;
             }
-            Console.WriteLine($"Event recorded for goal: {selectedGoal.GetStringRepresentation()}. You earned {selectedGoal.GetPoints()} points.");
-            //DisplayPlayerInfo();
-        } 
-
-       /* Console.WriteLine("\nChoose Goal to Record Event:");
-        for (int i = 0; i < _goals.Count; i++)
-        {
-            Console.WriteLine($"{i + 1}. {_goals[i].GetStringRepresentation()}");
-        }
-
-        Console.Write("Enter your choice: ");
-        int choice = int.Parse(Console.ReadLine());
-
-        if (choice > 0 && choice <= _goals.Count)
-        {
-            Goal selectedGoal = _goals[choice - 1];
-            selectedGoal.RecordEvent();
-            int eventPoints = selectedGoal.GetPoints();
-            _score += eventPoints;
-            Console.WriteLine($"Event recorded for goal: {selectedGoal.GetStringRepresentation()}. You earned {eventPoints} points.");
+            Console.WriteLine($"Event recorded for goal: {selectedGoal.GetStringRepresentation()}. You earned {selectedGoal._points} points.");
             DisplayPlayerInfo();
-        } */
-
-        
-
+        }
         else
         {
             Console.WriteLine("Invalid choice.");

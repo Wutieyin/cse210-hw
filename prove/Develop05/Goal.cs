@@ -39,5 +39,5 @@ public class Goal
     public virtual void RecordEvent() {}
     public virtual bool IsCompleted() { return false; }
     public virtual string GetDetailsString() { return $"{_name} ({_description})"; }
-    public virtual string GetStringRepresentation() { return $"{_name}, ({_description})"; }
+    public virtual string GetStringRepresentation() { return $"{_name}, {_description}"; }
 }

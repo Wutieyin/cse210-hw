@@ -41,7 +41,7 @@ class Program
                 //Console.WriteLine(11111111111);
                 string filePath = @"/Users/utieyinwyse/Desktop/BYUI/Programing with Classes/cse210-hw/prove/Develop02/WritingPrompt.txt";
 
-                List<string> _prompts = new List<string>();
+                //List<string> _prompts = new List<string>();
                 promptGenerator._prompts = File.ReadAllLines(filePath).ToList();
                 //Console.WriteLine(22222222222222);
 

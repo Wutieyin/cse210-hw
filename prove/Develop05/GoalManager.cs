@@ -158,7 +158,7 @@ public class GoalManager
                 {
                     "SimpleGoal" => $"{goalType}: {goal.GetStringRepresentation()}, {goal.GetPoints()},{goal.IsCompleted()}",
                     "EternalGoal" => $"{goalType}: {goal.GetStringRepresentation()}, {goal.GetPoints()}",
-                    "ChecklistGoal" => $"{goalType}: {goal.GetStringRepresentation()}, {goal.GetPoints()}, {((ChecklistGoal)goal).Bonus}, {((ChecklistGoal)goal).Target}, {((ChecklistGoal)goal).AmountCompleted}", //, {((ChecklistGoal)goal).Bonus}, {((ChecklistGoal)goal).IsBonusAchieved()}",
+                    "ChecklistGoal" => $"{goalType}: {goal.GetStringRepresentation()}, {goal.GetPoints()}, {((ChecklistGoal)goal).Target}, {((ChecklistGoal)goal).Bonus}, {((ChecklistGoal)goal).AmountCompleted}", 
                     _ => ""
                 };
                 writer.WriteLine(goalDetails);

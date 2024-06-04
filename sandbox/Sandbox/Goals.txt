@@ -1,0 +1,2 @@
+0
+SimpleGoal: Give talk, (Speak in church), 50,False

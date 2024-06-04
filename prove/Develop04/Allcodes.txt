@@ -1,0 +1,216 @@
+using System;
+using System.Collections.Generic;
+using System.Threading;
+
+// Base class
+class Activity
+{
+    protected string _name;
+    protected string _description;
+    protected int _duration;
+
+    public Activity(string name, string description)
+    {
+        _name = name;
+        _description = description;
+    }
+
+    public virtual void DisplayStartingMessage()
+    {
+        Console.WriteLine($"Starting {_name} activity...");
+        Console.WriteLine(_description);
+        Console.Write("Enter duration (in seconds): ");
+        _duration = int.Parse(Console.ReadLine());
+        Console.WriteLine("Get ready to begin...");
+        Thread.Sleep(3000);
+    }
+
+    public virtual void DisplayEndingMessage()
+    {
+        Console.WriteLine($"Great job! You've completed the {_name} activity for {_duration} seconds.");
+        Thread.Sleep(3000);
+    }
+
+    protected void ShowSpinner(int seconds)
+    {
+        for (int i = 0; i < seconds; i++)
+        {
+            Console.Write(".");
+            Thread.Sleep(1000);
+        }
+    }
+
+    protected void ShowCountdown(int seconds)
+    {
+        for (int i = seconds; i > 0; i--)
+        {
+            Console.Write($"{i} ");
+            Thread.Sleep(1000);
+        }
+        Console.WriteLine();
+    }
+}
+
+// Derived class: BreathingActivity
+class BreathingActivity : Activity
+{
+    public BreathingActivity() : base("Breathing", "This activity will help you relax by guiding you through deep breathing exercises.")
+    {
+    }
+
+    public void Run()
+    {
+        DisplayStartingMessage();
+        Console.WriteLine("Breathe in...");
+        ShowCountdown(_duration);
+        Console.WriteLine("Breathe out...");
+        ShowCountdown(_duration);
+        DisplayEndingMessage();
+    }
+}
+
+// Derived class: ListingActivity
+class ListingActivity : Activity
+{
+    private int _count;
+    private List<string> _prompts;
+
+    public ListingActivity() : base("Listing", "This activity will help you reflect on the good things in your life by listing as many items as you can.")
+    {
+        _prompts = new List<string> {
+            "Who are people that you appreciate?",
+            "What are personal strengths of yours?",
+            "Who are people that you have helped this week?",
+            "When have you felt the Holy Ghost this month?",
+            "Who are some of your personal heroes?"
+        };
+    }
+
+    private string GetRandomPrompt()
+    {
+        Random rand = new Random();
+        return _prompts[rand.Next(_prompts.Count)];
+    }
+
+    private List<string> GetListFromUser()
+    {
+        List<string> items = new List<string>();
+        Console.WriteLine($"Think about: {GetRandomPrompt()}");
+        Console.WriteLine($"You have {_duration} seconds to list items.");
+        Thread.Sleep(_duration * 1000);
+        Console.WriteLine("Time's up!");
+        Console.Write("Enter items (one per line, 'done' to finish):\n");
+        string input = "";
+        while ((input = Console.ReadLine()) != "done")
+        {
+            items.Add(input);
+        }
+        return items;
+    }
+
+    public void Run()
+    {
+        DisplayStartingMessage();
+        List<string> items = GetListFromUser();
+        Console.WriteLine($"You listed {items.Count} items.");
+        DisplayEndingMessage();
+    }
+}
+
+// Derived class: ReflectingActivity
+class ReflectingActivity : Activity
+{
+    private List<string> _prompts;
+    private List<string> _questions;
+
+    public ReflectingActivity() : base("Reflecting", "This activity will help you reflect on times in your life when you have shown strength and resilience.")
+    {
+        _prompts = new List<string> {
+            "Think of a time when you stood up for someone else.",
+            "Think of a time when you did something really difficult.",
+            "Think of a time when you helped someone in need.",
+            "Think of a time when you did something truly selfless."
+        };
+
+        _questions = new List<string> {
+            "Why was this experience meaningful to you?",
+            "Have you ever done anything like this before?",
+            "How did you get started?",
+            "How did you feel when it was complete?",
+            "What made this time different than other times when you were not as successful?",
+            "What is your favorite thing about this experience?",
+            "What could you learn from this experience that applies to other situations?",
+            "What did you learn about yourself through this experience?",
+            "How can you keep this experience in mind in the future?"
+        };
+    }
+
+    private string GetRandomPrompt()
+    {
+        Random rand = new Random();
+        return _prompts[rand.Next(_prompts.Count)];
+    }
+
+    private string GetRandomQuestion()
+    {
+        Random rand = new Random();
+        return _questions[rand.Next(_questions.Count)];
+    }
+
+    public void Run()
+    {
+        DisplayStartingMessage();
+        string prompt = GetRandomPrompt();
+        Console.WriteLine(prompt);
+        ShowSpinner(_duration);
+        Console.WriteLine();
+        Console.WriteLine("Reflecting...");
+        foreach (var question in _questions)
+        {
+            Console.WriteLine(question);
+            Thread.Sleep(5000); // Pause for reflection
+            ShowSpinner(3); // Spinner while waiting for next question
+        }
+        DisplayEndingMessage();
+    }
+}
+
+class Program
+{
+    static void Main(string[] args)
+    {
+        int choice;
+        do
+        {
+            Console.WriteLine("Menu:");
+            Console.WriteLine("1. Breathing Activity");
+            Console.WriteLine("2. Reflection Activity");
+            Console.WriteLine("3. Listing Activity");
+            Console.WriteLine("4. Exit");
+            Console.Write("Enter your choice: ");
+            choice = int.Parse(Console.ReadLine());
+
+            switch (choice)
+            {
+                case 1:
+                    BreathingActivity breathingActivity = new BreathingActivity();
+                    breathingActivity.Run();
+                    break;
+                case 2:
+                    ReflectingActivity reflectingActivity = new ReflectingActivity();
+                    reflectingActivity.Run();
+                    break;
+                case 3:
+                    ListingActivity listingActivity = new ListingActivity();
+                    listingActivity.Run();
+                    break;
+                case 4:
+                    Console.WriteLine("Exiting...");
+                    break;
+                default:
+                    Console.WriteLine("Invalid choice. Please enter a number from 1 to 4.");
+                    break;
+            }
+        } while (choice != 4);
+    }
+}
