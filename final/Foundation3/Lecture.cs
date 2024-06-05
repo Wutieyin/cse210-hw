@@ -6,11 +6,12 @@ class Lecture : Event
     public Lecture(string title, string description, DateTime dateTime, Address address, string speaker, int capacity)
         : base(title, description, dateTime, address)
     {
-       
+        _speaker = speaker;
+        _capacity = capacity;
     }
 
     public override string GetFullMessage()
     {
-        return "";
+        return base.GetFullMessage() + $"\nType: Lecture\nSpeaker: {_speaker}\nCapacity: {_capacity}";
     }
 }
