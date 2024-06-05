@@ -1,33 +1,54 @@
-using System;
-using System.Collections.Generic;
-using System.Security.Authentication;
-
-
-class Program
+class Video
 {
-    static void Main(string[] args)
+    public string _title; 
+    public string _author; 
+    public int _length; // Length in seconds
+    private List<Comment> _comments;
+
+    public Video(string Title, string Author, int Length)
     {
-        List<Video> videos = new List<Video>();
+      _title =  Title;
+      _author = Author;
+      _length = Length;
+      _comments = new List<Comment>();
+    }
 
-        // Creating videos
-        videos.Add(new Video("Introduction to Programming with classes", "Code Master", 180));
-        videos.Add(new Video("How to Make a Delicious Smoothie", "Smoothie Queen", 240));
-        videos.Add(new Video("10-Minute Full Body Workout at Home", "Fit King", 600)); 
+    public void AddComment(string NameOfCommenter, string Text)
+    {
+        Comment comment = new Comment(NameOfCommenter, Text);
+        _comments.Add(comment);
+    }
 
-        // Adding comments to videos
-        videos[0].AddComment("Alice", "Great intro, looking forward to more!");
-        videos[0].AddComment("Bob", "awsome explanations, thanks!");
-        videos[1].AddComment("Elizaberth", "Yummy! I'm trying this recipe tomorrow.");
-        videos[1].AddComment("Rosemary", "My kids loved it, thank you!");
-        videos[2].AddComment("Paul", "Feeling energized after this workout, great job!");
-        videos[2].AddComment("Frank", "Just what I needed for my busy schedule!");
+    public int GetNumComments()
+    {
+        return _comments.Count;
+    }
 
-        System.Console.WriteLine();
+    public string Title
+    {
+        get { return _title; }
+    }
+    public string Author
+    {
+        get { return _author; }
+    }
 
-        // Displaying video info
-        foreach (Video video in videos)
+    public int Length
+    {
+        get { return _length; }
+    }
+
+    public void DisplayInfo()
+    {
+        Console.WriteLine($"Title: {Title}");
+        Console.WriteLine($"Author: {Author}");
+        Console.WriteLine($"Length: {Length} seconds");
+        Console.WriteLine($"Number of comments: {GetNumComments()}");
+        Console.WriteLine("Comments:");
+        foreach (Comment comment in _comments)
         {
-            video.DisplayInfo();
+            Console.WriteLine($"  -  {comment.NameOfCommenter} :  {comment.Text}");
         }
+        Console.WriteLine();
     }
 }
