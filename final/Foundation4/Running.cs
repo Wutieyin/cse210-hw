@@ -5,26 +5,26 @@ class Running : Activity
     public Running(DateTime date, int duration, double distance)
         : base(date, duration)
     {
-        
+        _distance = distance;
     }
 
     public override double GetDistance()
     {
-        return 1;
+        return _distance;
     }
 
     public override double GetSpeed()
     {
-        return 1;
+        return _distance / duration * 60;
     }
 
     public override double GetPace()
     {
-        return 1;
+        return duration / _distance;
     }
 
     public override string GetSummary()
     {
-        return "";
+        return $"{base.GetSummary()} - Distance: {_distance:F2} miles, Speed: {GetSpeed():F2} mph, Pace: {GetPace():F2} min/mile";
     }
 }
