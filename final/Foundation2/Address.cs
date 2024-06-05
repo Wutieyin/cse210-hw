@@ -7,18 +7,20 @@ class Address
 
     public Address(string streetAddress, string city, string stateProvince, string country)
     {
-     
+        _streetAddress = streetAddress;
+        _city = city;
+        _stateProvince = stateProvince;
+        _country = country;
     }
 
     public bool IsInUSA()
     {
-        return true;
+        return _country == "USA";
     }
 
     public override string ToString()
     {
-        return "";
+        return $"{_streetAddress} {_city} {_stateProvince} {_country}";
     }
 
-    
 }
