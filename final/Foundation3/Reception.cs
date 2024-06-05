@@ -5,11 +5,11 @@ class Reception : Event
     public Reception(string title, string description, DateTime dateTime, Address address, string rsvpEmail)
         : base(title, description, dateTime, address)
     {
-        
+        _rsvpEmail = rsvpEmail;
     }
 
     public override string GetFullMessage()
     {
-        return "";
+        return base.GetFullMessage() + $"\nType: Reception\nRSVP Email: {_rsvpEmail}";
     }
 }
