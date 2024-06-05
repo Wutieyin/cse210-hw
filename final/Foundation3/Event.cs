@@ -7,21 +7,24 @@ class Event
 
     public Event(string title, string description, DateTime dateTime, Address address)
     {
-       
+        _title = title;
+        _description = description;
+        _dateTime = dateTime;
+        _address = address;
     }
 
     public string GetStandardMessage()
     {
-        return "";
+        return $"Event: {_title}\nDescription: {_description}\nDate: {_dateTime.ToShortDateString()}\nTime: {_dateTime.ToShortTimeString()}\nAddress: {_address}";
     }
 
     public virtual string GetFullMessage()
     {
-        return "";
+        return GetStandardMessage();
     }
 
     public virtual string GetShortDescription()
     {
-        return "";
+        return $"Type: {GetType().Name}\nEvent: {_title}\nDate: {_dateTime.ToShortDateString()}";
     }
 }
